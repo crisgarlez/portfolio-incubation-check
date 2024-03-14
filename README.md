@@ -1,6 +1,6 @@
 # Portfolio Incubation Check Microservice
 
-![Cover Image](./public/images/portfolio-monsters-ms.svg)
+![Cover Image](./public/images/incubation-check.svg)
 
 This is the microservice responsible for handling incubation-check-related data in the application.
 
