@@ -9,10 +9,6 @@ export type MonsterDocument = HydratedDocument<Monster>;
   versionKey: false,
   toJSON: {
     transform: (_doc: any, ret: any) => {
-      ret.imageUrl =
-        'https://fsl-assessment-public-files.s3.amazonaws.com/assessment-cc-01/dead-unicorn.png';
-
-      // delete ret.__v;
       return ret;
     },
   },

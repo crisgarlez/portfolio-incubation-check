@@ -3,7 +3,7 @@ import { registerAs } from '@nestjs/config';
 export default registerAs('config', () => {
   return {
     app: {
-      version: process.env.APP_VERSION,
+      port: process.env.PORT,
     },
     incubatorDb: {
       dbName: process.env.MONGO_DB,
@@ -12,6 +12,10 @@ export default registerAs('config', () => {
       port: parseInt(process.env.MONGO_PORT, 10),
       host: process.env.MONGO_HOST,
       connection: process.env.MONGO_CONNECTION,
+    },
+    amqp: {
+      amqpServer: process.env.AMQP_URL,
+      monstersQueueName: process.env.MONSTERS_MS_QUEUE_NAME,
     },
   };
 });

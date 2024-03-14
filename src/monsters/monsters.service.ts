@@ -1,10 +1,10 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Cron } from '@nestjs/schedule';
 import { Monster } from './monster.schema';
 import { Model } from 'mongoose';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class MonstersService {
@@ -15,10 +15,9 @@ export class MonstersService {
     @Inject('MONSTERS_MS') private client: ClientProxy,
   ) {}
 
-  // @Cron('0 0/5 * * * *')
   @Cron('* * * * * ')
   async handleCron() {
-    this.logger.debug('Procesando incubación de monstruos...');
+    this.logger.debug('handleCron...');
 
     const currentTime = new Date();
 
@@ -38,7 +37,6 @@ export class MonstersService {
     this.logger.debug('Monstruos encontrados: ' + incubatingMonsters.length);
 
     incubatingMonsters.forEach(async (monster) => {
-      // Log de depuración para registrar detalles de procesamiento
       this.logger.debug('Procesando monstruo: ' + monster.incubationTime);
 
       try {
@@ -53,11 +51,11 @@ export class MonstersService {
           typeCode: monster.typeCode,
         });
         const sendedMonster = await lastValueFrom(sendedMonster$);
-        console.log('sendedMonster: ' + JSON.stringify(sendedMonster));
+        this.logger.debug('sendedMonster: ' + JSON.stringify(sendedMonster));
         monster.status = 'INCUBATED';
         monster.save();
       } catch (error) {
-        console.log('error: ' + JSON.stringify(error));
+        this.logger.error('error: ' + JSON.stringify(error));
       }
     });
   }
